@@ -5,7 +5,7 @@
         "src": "frontend/PxAng/package.json",
         "use": "@vercel/static-build",
         "config": {
-          "distDir": "frontend/PxAng/dist/PxAng"
+          "distDir": "frontend/PxAng/dist/px-ang"
         }
       },
       {
@@ -20,7 +20,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "frontend/PxAng/dist/PxAng/index.html"
+        "dest": "frontend/PxAng/dist/px-ang/index.html"
       }
     ]
   }
