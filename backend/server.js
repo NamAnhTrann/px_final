@@ -18,9 +18,9 @@ app.use(userRouter);
 app.use(orderRouter);
 app.use(paymentRouter);
 
-// app.use(
-//   express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
-// );
+app.use(
+  express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
+);
 
 const db_url = process.env.DB_URL;
 const port_no = process.env.PORT_NO;
@@ -62,4 +62,10 @@ app.post("/api/save-user", async (req, res) => {
     console.error("Error saving user:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser/index.html")
+  );
 });
