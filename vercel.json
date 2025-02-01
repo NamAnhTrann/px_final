@@ -9,13 +9,19 @@
         }
       },
       {
-        "src": "backend/package.json",
+        "src": "backend/server.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
-      { "src": "/api/(.*)", "dest": "backend/server.js" },
-      { "src": "/(.*)", "dest": "frontend/PxAng/dist/PxAng/index.html" }
+      {
+        "src": "/api/(.*)",
+        "dest": "/backend/server.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "frontend/PxAng/dist/PxAng/index.html"
+      }
     ]
   }
   
