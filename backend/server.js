@@ -18,9 +18,9 @@ app.use(userRouter);
 app.use(orderRouter);
 app.use(paymentRouter);
 
-app.use(
-  express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
-);
+// app.use(
+//   express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
+// );
 
 const db_url = process.env.DB_URL;
 const port_no = process.env.PORT_NO;
