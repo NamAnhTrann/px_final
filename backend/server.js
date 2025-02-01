@@ -13,37 +13,43 @@ const paymentRouter = require("./router/paymentRouter");
 const app = express();
 app.use(express.json());
 
+// ✅ Use Routes Without `/api`
 app.use(productRouter);
 app.use(userRouter);
 app.use(orderRouter);
 app.use(paymentRouter);
 
-app.use(
-  express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
-);
-
 const db_url = process.env.DB_URL;
-const port_no = process.env.PORT_NO;
+const port_no = process.env.PORT_NO || 3000;
 
-app.listen(port_no, function (err) {
-  if (!err) {
-    console.log(`connected to ${port_no}`);
-  } else {
-    console.log("Error occured", err);
-  }
-});
+// ✅ Only Serve Frontend in Local Dev Mode
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    express.static(
+      path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser")
+    )
+  );
 
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser/index.html")
+    );
+  });
+}
+
+// ✅ Connect to MongoDB
 async function connect() {
   try {
     await mongoose.connect(db_url);
-    console.log(`Conneted to the database ${db_url}`);
+    console.log(`Connected to the database ${db_url}`);
   } catch (err) {
-    console.error("connection error");
+    console.error("Connection error:", err);
   }
 }
 connect();
 
-app.post("/api/save-user", async (req, res) => {
+// ✅ Save User Endpoint
+app.post("/save-user", async (req, res) => {
   const { uid } = req.body;
   console.log("Request body:", req.body);
 
@@ -54,7 +60,7 @@ app.post("/api/save-user", async (req, res) => {
   try {
     let user = await User.findOne({ firebaseUid: uid });
     if (!user) {
-      user = new User({ firebaseUid: uid }); // Save as `firebaseUid`
+      user = new User({ firebaseUid: uid });
       await user.save();
     }
     res.status(200).json({ message: "User saved successfully", user });
@@ -64,8 +70,12 @@ app.post("/api/save-user", async (req, res) => {
   }
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser/index.html")
-  );
-});
+// ✅ Start Local Server
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port_no, () => {
+    console.log(`Server running on port ${port_no}`);
+  });
+}
+
+// ✅ Export for Vercel
+module.exports = app;
