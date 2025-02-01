@@ -1,0 +1,22 @@
+<header [ngClass]="{ 'scrolled': isScrolled }" class="header fixed-top">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a routerLink="/" class="navbar-brand">Phúc Xanh</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Chuyển đổi điều hướng">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a routerLink="product-list" class="nav-link">Trang Sản Phẩm</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="about-us" class="nav-link">Về Chúng Tôi</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

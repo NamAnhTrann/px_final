@@ -1,0 +1,38 @@
+<section class="order-summary container my-5">
+  <h2 class="mb-4 text-center">Tóm Tắt Đơn Hàng</h2>
+  
+  <div class="row justify-content-center">
+      @if (groupedOrders.length === 0) {
+          <p class="text-center">Không có đơn hàng nào.</p>
+      } @else {
+          @for (group of groupedOrders; track $index) {
+              <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100 shadow">
+                      <img src="{{ group.productImage }}" class="card-img-top p-3" alt="{{ group.productName }}">
+                      <div class="card-body">
+                          <h5 class="card-title text-center">{{ group.productName }}</h5>
+                          <p class="text-muted text-center">Số lượng: <strong>{{ group.totalQuantity }}</strong></p>
+                          <p class="text-muted text-center">Tổng giá: <strong>VND {{ group.totalAmount.toLocaleString() }}</strong></p>
+                          
+                      </div>
+                  </div>
+              </div>
+          }
+      }
+  </div>
+
+  <hr class="my-4">
+  <div class="total-amount text-center">
+      <h3>Tổng tất cả: <strong>VND {{ totalAmount.toLocaleString() }}</strong></h3>
+      <div class="card-footer text-center">
+        <button class="btn btn-primary">Thanh Toán</button>
+      </div>
+  </div>
+</section>
+
+
+
+
+
+
+

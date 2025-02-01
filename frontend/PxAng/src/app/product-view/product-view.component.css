@@ -1,0 +1,147 @@
+.banner {
+    height: 120vh; 
+    background-image: url('/assets/banner_1.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; /* Prevent tiling */
+    margin: 0; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    background-blend-mode: overlay; 
+    animation: zoom-effect 10s infinite ease-in-out;
+  }
+  
+  .banner h1 {
+    color: white;
+    text-align: center;
+
+  }
+  .custom-button {
+    background-color: rgb(55, 84, 55);    
+    color: white; 
+    width:15vw;
+    height:10vh;
+    border-radius:10px;
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+
+}
+
+.custom-button:hover {
+  background-color: rgba(68, 113, 68, 0.959); /* Background color on hover */
+
+}
+
+  @keyframes zoom-effect {
+    0% {
+      background-size: 100%;
+    }
+    50% {
+      background-size: 110%; 
+    }
+    100% {
+      background-size: 100%; 
+    }
+  }
+
+ /* General Styling */
+.product-detail, .related-product {
+  padding: 40px 0;
+}
+
+/* Centering Main Product */
+.product-detail .col-md-8 {
+  display: flex;
+  justify-content: center;
+}
+
+/* Product Card - Expanded Height */
+.product-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease-in-out;
+  max-width: 600px; /* Set max width for center alignment */
+  min-height: 750px; /* Increased height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures content fills the card */
+  margin: auto; /* Center card */
+}
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+/* Product Image Styling */
+.product-image img {
+  width: 100%;
+  height: 400px; /* Increased image height */
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Product Card Body */
+.card-body {
+  flex-grow: 1; /* Allows text to take up available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers text inside */
+  text-align: center;
+}
+
+/* Center the Related Products Section */
+.related-product {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.related-product .row {
+  justify-content: center; /* Center the row horizontally */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Spacing between items */
+}
+
+/* Center Each Related Product Card */
+.related-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease-in-out;
+  max-width: 280px; /* Consistent card size */
+  margin-left:20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Ensures content is centered */
+}
+
+.related-card:hover {
+  transform: scale(1.05);
+}
+
+/* Related Product Image */
+.related-image {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.related-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the image is properly placed */
+  border-radius: 12px 12px 0 0;
+}
+
+/* Buttons */
+.add-to-cart, .view-details {
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+.add-to-cart:hover {
+  background-color: #218838;
+  color: white;
+}
+
+.view-details:hover {
+  background-color: #5a6268;
+  color: white;
+}

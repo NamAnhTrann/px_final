@@ -1,0 +1,47 @@
+<section class="banner text-center text-white d-flex align-items-center justify-content-center">
+  <div>
+    <h1 class="display-4 fw-bold">Cây xanh hòa mình trong ánh sáng <br> và không khí của tự nhiên</h1>
+    <p class="lead">Khám phá vẻ đẹp thiên nhiên cùng Phúc Xanh</p>
+    <button routerLink="product-list" class="btn custom-button">Khám Phá Ngay</button>
+  </div>
+</section>  
+
+
+
+
+
+<section class="product-list">
+  <div class="container">
+    <div class="row">
+      @for (products of product; track $index) {
+        <div class="product-item">
+          <!-- Product Image Container -->
+          <div class="image-container">
+            <img
+              src="{{products.productImage}}"
+              alt="{{products.productName}}"
+              class="product-image"
+            />
+            <!-- Buttons (Initially Hidden) -->
+            <div class="hover-buttons">
+              <button (click)="AddToCart(products._id, 1)" class="btn add-to-cart">Add to Cart</button>
+              <button (click)="getProductId(products._id)" class="btn view-details">View</button>
+            </div>
+          </div>
+          <!-- Product Details -->
+          <div class="product-details">
+            <h6 class="product-name">{{products.productName}}</h6>
+            <p class="product-price">VND {{ products.productPrice | number }}</p> 
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+

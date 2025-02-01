@@ -1,0 +1,73 @@
+<section class="banner text-center text-white d-flex align-items-center justify-content-center">
+  <div>
+    <h1 class="display-4 fw-bold">Cây xanh hòa mình trong ánh sáng <br> và không khí của tự nhiên</h1>
+    <p class="lead">Khám phá vẻ đẹp thiên nhiên cùng Phúc Xanh</p>
+    <button routerLink="product-list" class="btn custom-button">Khám Phá Ngay</button>
+  </div>
+</section>  
+
+<!-- Product Detail Section -->
+<section class="product-detail container my-5">
+  <h2 class="text-center fw-bold mb-4">Chi Tiết Sản Phẩm</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-8"> <!-- Centered Main Product View -->
+      @for (products of product; track $index) {
+        @if (!products) {
+          <p class="text-center">Không có sản phẩm nào</p>
+        } @else {
+          <div class="card product-card shadow-lg">
+            <div class="product-image">
+              <img src="{{products.productImage}}" class="card-img-top" alt="{{products.productName}}" />
+            </div>
+            <div class="card-body text-center">
+              <h5 class="card-title fw-bold">{{products.productName}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Giá: {{products.productPrice | number}}</h6>
+              <p class="card-text">{{products.productDescription}}</p>
+            </div>
+            <div class="card-footer text-center bg-light">
+              <button class="btn btn-primary w-100 add-to-cart" [disabled]="products.productStock <= 0" (click)="AddToCart(products._id, 1)">
+                <i class="fas fa-cart-plus me-2"></i>Thêm Vào Giỏ
+              </button>
+              <button class="btn btn-outline-success w-100 mt-2" (click)="goToOrderSummary()">
+                <i class="fas fa-receipt me-2"></i>Xem Giỏ Hàng
+              </button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Related Products Section -->
+<section class="related-product container text-center my-5">
+  <h2 class="mb-4">Sản Phẩm Liên Quan</h2>
+  <div class="row justify-content-center">
+    @for (related of relatedProducts; track $index) {
+      @if (!related) {
+        <p class="text-center">Không có sản phẩm</p>
+      } @else {
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card related-card">
+            <div class="related-image">
+              <img
+                src="{{related.productImage}}"
+                class="card-img-top"
+                alt="{{related.productName}}"
+              />
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{related.productName}}</h5>
+              <p class="product-price">VND {{ related.productPrice | number }}</p> 
+            </div>
+            <div class="card-footer text-center">
+              <button class="btn btn-secondary view-details" (click)="getProductId(related._id)">
+                <i class="fas fa-eye"></i> Xem Chi Tiết
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</section>

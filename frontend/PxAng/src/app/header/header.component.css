@@ -1,0 +1,25 @@
+.header {
+  background-color:rgba(0, 0, 0, 0);
+  transition: background-color 0.3s ease-in-out;
+
+}
+.header.scrolled {
+  background-color: #375437; /* Darker header when scrolled */
+}
+
+.navbar-brand { 
+  color:white;
+  font-size:28px;
+}
+
+
+.navbar-nav .nav-link {
+  color: white !important; /* ✅ Change to any color */
+  font-size: 18px;
+  padding: 10px 15px;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover{
+  text-decoration: underline;
+}

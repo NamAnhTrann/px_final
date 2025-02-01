@@ -1,0 +1,246 @@
+.banner {
+    height: 80vh; 
+    background-image: url('/assets/banner_1.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; /* Prevent tiling */
+    margin: 0; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    background-blend-mode: overlay; 
+    animation: zoom-effect 10s infinite ease-in-out;
+  }
+  
+  .banner h1 {
+    color: white;
+    text-align: center;
+
+  }
+  .custom-button {
+    background-color: rgb(55, 84, 55);    
+    color: white; 
+    width:15vw;
+    height:10vh;
+    border-radius:10px;
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+
+}
+
+.custom-button:hover {
+  background-color: rgba(68, 113, 68, 0.959); /* Background color on hover */
+
+}
+
+  @keyframes zoom-effect {
+    0% {
+      background-size: 100%;
+    }
+    50% {
+      background-size: 110%; 
+    }
+    100% {
+      background-size: 100%; 
+    }
+  }
+
+/* Container and Row */
+.product-list {
+  padding: 2rem 0; /* Vertical padding */
+  background-color: #f8f9fa; /* Light background */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between items */
+  justify-content: center; /* Center content in the row */
+}
+
+/* Product Item */
+.product-item {
+  text-align: center; /* Centers text and image */
+  max-width: calc(33.333% - 20px);
+  box-sizing: border-box;
+  margin-top:4vh;
+  
+}
+
+/* Image Container */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+/* Product Image */
+.product-image {
+  border-radius: 10px;
+  width: 100%;
+  height: 60vh; /* Set a taller height */
+  transition: transform 0.3s ease; /* Smooth zoom effect */
+  object-fit: cover; /* Maintain aspect ratio and avoid distortion */
+}
+
+
+.product-image:hover {
+  transform: scale(1.05); /* Zoom effect on hover */
+  border-radius:10px;
+
+}
+
+/* Add an Overlay for Dim Effect */
+.image-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Initially transparent */
+  transition: background-color 0.3s ease; /* Smooth dimming effect */
+  z-index: 1; /* Place it above the image */
+  border-radius:10px;
+
+}
+
+.image-container:hover::before {
+  background-color: rgba(0, 0, 0, 0.5); /* Dim effect on hover */
+  border-radius:10px;
+
+}
+
+
+/* Hover Buttons (Hidden by Default) */
+.hover-buttons {
+  position: absolute;
+  bottom: 10px; /* Positioned at the bottom of the image */
+  left: 50%; /* Center the buttons horizontally */
+  transform: translateX(-50%); /* Adjust for proper centering */
+  width: 80%; /* Make the buttons 80% of the image width */
+  display: none; /* Hidden by default */
+  z-index: 2; /* Ensure they appear above the image */
+}
+
+.hover-buttons .btn {
+  width: 100%; /* Buttons span the full width of the container */
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #ffffff;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease; /* Add smooth transition */
+}
+
+.hover-buttons .btn:hover {
+  background-color: #ffffff; /* Keeps the background white */
+  transform: translateY(-5px); /* Moves the button up slightly */
+}
+
+
+/* Show Buttons on Hover */
+.image-container:hover .hover-buttons {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center;
+  
+}
+
+/* Product Details */
+.product-details {
+  margin-top: 10px; /* Adds spacing between image and text */
+  text-align: left !important; /* Aligns the text to the left */
+}
+
+
+.product-name {
+  color:gray;
+  font-weight: bold;
+  margin: 0;
+}
+
+.product-name:hover{
+  text-decoration: underline;
+}
+
+.product-price {
+  color:gray;
+  margin: 5px 0 0;
+}
+
+/* Filter Section */
+.filter-section {
+  background-color: #f8f9fa; /* Matches the product list section */
+  padding: 2rem 0;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: nowrap; /* Keep buttons in a single line */
+  gap: 15px; /* Add spacing between buttons */
+  overflow-x: auto; /* Allow scrolling if content overflows */
+  padding: 0 15px;
+}
+
+.filter-buttons .btn {
+  white-space: nowrap; /* Prevent text wrapping */
+  padding: 10px 20px;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+/* Mobile Layout Adjustments */
+@media (max-width: 768px) {
+  .product-item {
+    max-width: 100%; /* Make each product take full width */
+  }
+
+  .product-image {
+    height: 45vh; /* Reduce height to fit mobile screens */
+  }
+
+  .hover-buttons {
+    width: 90%; /* Make buttons span wider */
+  }
+
+  .hover-buttons .btn {
+    font-size: 14px; /* Smaller buttons */
+    padding: 6px 12px;
+  }
+
+  .product-details {
+    text-align: center !important; /* Center product text */
+  }
+}
+
+/* Adjustments for Smaller Phones */
+@media (max-width: 576px) {
+  .product-image {
+    height: 40vh; /* Further reduce height */
+  }
+
+  .hover-buttons {
+    bottom: 5px; /* Adjust position */
+  }
+
+  .hover-buttons .btn {
+    font-size: 12px; /* Smaller buttons */
+  }
+
+  .custom-button {
+    width: 80%; /* Make buttons larger */
+    height: 8vh;
+    font-size: 14px;
+  }
+}
+
+

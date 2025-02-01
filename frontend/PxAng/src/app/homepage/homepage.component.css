@@ -1,0 +1,246 @@
+.banner {
+  text-align: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Layers */
+.banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2.5s ease-in-out; /* ✅ Matches TypeScript timing */
+  z-index: 1;
+}
+
+/* Active Image (Fades In) */
+.banner-bg.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Fading Out Image (Old Image Stays Visible Until Transition Completes) */
+.banner-bg.fade-out {
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 2.5s ease-in-out;
+}
+
+/* Next Image (Hidden Until Needed) */
+.banner-bg.next {
+  opacity: 0;
+  z-index: 0;
+}
+
+/* When Next Image Should Appear */
+.banner-bg.next.show {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Dark Overlay to Reduce Brightness */
+.banner-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Banner text */
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 3;
+}
+
+
+.custom-button {
+  background-color: rgb(55, 84, 55);    
+  color: white;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.custom-button:hover {
+  background-color: #0d4319; /* Darker green */
+}
+
+.bg-custom {
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity))
+}
+
+/* Section Divider Line */
+.section-divider {
+  width: 80%;
+  margin: 50px auto; /* Adds spacing above & below */
+  border: none;
+  height: 3px;
+  background-color: #375437; /* Matches theme color */
+  opacity: 0.8;
+}
+
+
+.icon {
+  font-size: 40px; /* Adjust icon size */
+  color: #375437; /* Match theme color */
+  transition: transform 0.2s ease 0s;
+}
+.icon:hover{
+  color: #476f47; /* Match theme color */
+  transform: translateY(-10px);
+}
+
+.video-styled{
+  border-radius: 15px;
+}
+
+
+.plant-size {
+  text-align: center;
+  padding: 40px 0;
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity))
+};
+
+.plant-size-header {
+  font-size: 32px;
+  margin-bottom: 40px;
+  position: relative;
+  display: inline-block; /* Ensures width wraps around text */
+  cursor: pointer;
+}
+
+/* Create the underline effect */
+.plant-size-header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px; /* Adjust underline position */
+  width: 0;
+  height: 3px; /* Thickness of the underline */
+  background-color: #375437; /* Match theme color */
+  transition: width 0.4s ease-in-out, left 0.4s ease-in-out;
+}
+
+/* Expand underline on hover */
+.plant-size-header:hover::after {
+  width: 100%;
+  left: 0;
+}
+.plant-size-header {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  grid-template-rows: repeat(3, 1fr); /* 3 rows */
+  gap: 0; /* No space between boxes */
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.plant-item {
+  position: relative;
+  background-color: rgb(241, 233, 233);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Keeps squares */
+  border-radius: 0;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Image Styles */
+.plant-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Default Image */
+.plant-item .plant-img-main {
+  opacity: 1;
+}
+
+/* Hover Image (Initially Hidden) */
+.plant-item .plant-img-hover {
+  opacity: 0;
+}
+
+/* Swap Images on Hover */
+.plant-item:hover .plant-img-main {
+  opacity: 0;
+}
+
+.plant-item:hover .plant-img-hover {
+  opacity: 1;
+}
+
+/* Ensure Text in Boxes Without Images is Always Visible */
+.plant-item:not(:has(img)) {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  padding: 20px;
+  text-align: center;
+}
+
+.accordion-button {
+  background-color: rgb(55, 84, 55);
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+/* Change the color of the arrow icon */
+.accordion-button::after {
+  filter: brightness(0) invert(1); /* Makes the icon white */
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: rgba(68, 113, 68, 0.959); /* Different color when expanded */
+}
+
+.accordion-button:hover {
+  background-color: rgba(68, 113, 68, 0.959); /* Change color on hover */
+}
+
+/* Accordion collapse animation */
+.accordion-collapse {
+  transition: height 0.3s ease; /* Smooth ease effect for dropdown height */
+}
+
+/* Accordion Body Styling */
+.accordion-body {
+  color: rgb(42, 62, 42);
+  transition: opacity 0.3s ease; /* Smooth fade-in effect */
+  text-align: left;
+}

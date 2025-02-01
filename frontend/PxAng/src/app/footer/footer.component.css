@@ -1,0 +1,31 @@
+.footer {
+    font-size: 16px;
+  }
+  
+  .footer h5 {
+    margin-bottom: 15px;
+  }
+  
+  .footer .list-unstyled li {
+    margin-bottom: 8px;
+  }
+  
+  .footer a {
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .footer a:hover {
+    color: #28a745; /* Green hover effect */
+  }
+  
+  .social-icon {
+    font-size: 20px;
+    color: white;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .social-icon:hover {
+    color: #28a745;
+  }
+  
