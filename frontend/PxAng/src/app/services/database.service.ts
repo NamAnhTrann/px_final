@@ -22,7 +22,7 @@ export class DatabaseService {
   }
 
   getProductId(id: string): Observable<Product> {
-    return this.http.get<Product>(`http://localhost:1010/get/product/${id}`, httpOptions);
+    return this.http.get<Product>(`${this.apiUrl}/get/product/${id}`, httpOptions);
   }
 
   getOrderUserId(userId: string){
