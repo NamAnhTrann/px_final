@@ -47,8 +47,10 @@ export class AuthService {
    * Logs in the user using Google OAuth and stores session data.
    */
   login(): Promise<void> {
+    console.log("Attempting login with Google OAuth...");
     return signInWithPopup(this.auth, this.provider)
       .then((result) => {
+        console.log("Login success, processing user data...");
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if (credential) {
           const user = result.user;
@@ -58,9 +60,10 @@ export class AuthService {
           this.photoUrl = user.photoURL || "";
           this.user = { uid: this.uid, displayName: this.displayName, email: this.email, photoUrl: this.photoUrl };
 
-          console.log("User logged in:", user);
+          console.log("User logged in successfully:", this.user);
 
           // Send UID to backend
+          console.log(`Sending UID to backend: ${this.apiUrl}/api/save-user`);
           return this.sendUidBackend(this.uid).toPromise()
             .then(response => {
               console.log('UID sent to backend successfully:', response);
@@ -83,16 +86,16 @@ export class AuthService {
    * Logs out the user and clears session data.
    */
   logout(): void {
+    console.log("Attempting to log out...");
     signOut(this.auth)
       .then(() => {
-        console.log("User logged out.");
+        console.log("User logged out successfully.");
         this.user = null;
   
         // Clear session data
         localStorage.clear();
         sessionStorage.clear();
         window.location.reload();
-
   
         // Redirect to login or home page
         this.router.navigate(["/signup"]);
@@ -106,6 +109,7 @@ export class AuthService {
    * Listens for Firebase Auth State Changes (Session Persistence).
    */
   listenForAuthChanges(): void {
+    console.log("Listening for authentication state changes...");
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.uid = user.uid;
@@ -126,8 +130,7 @@ export class AuthService {
    * Checks if a user is logged in.
    */
   isLoggedIn(): boolean {
-    console.log("Checking login status:", this.user); // Debugging log
-
+    console.log("Checking login status. Current user:", this.user);
     return this.user !== null;
   }
 
@@ -135,6 +138,7 @@ export class AuthService {
    * Retrieves the UID of the logged-in user.
    */
   getUserId(): string {
+    console.log("Fetching user ID. UID:", this.uid);
     return this.uid;
   }
 
@@ -143,6 +147,7 @@ export class AuthService {
    */
   sendUidBackend(uid: string) {
     const body = { uid };
+    console.log(`Sending POST request to: ${this.apiUrl}/api/save-user with body:`, body);
     return this.http.post(`${this.apiUrl}/api/save-user`, body, httpOptions);
   }
 }
