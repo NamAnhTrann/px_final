@@ -5,7 +5,7 @@
       "src": "frontend/PxAng/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/PxAng/dist/px-ang/browser"
+        "distDir": "frontend/PxAng/dist/px-ang"
       }
     }
   ],
