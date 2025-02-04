@@ -1,0 +1,6 @@
+version: 1
+buildCommand: npm run build
+publish: dist/px-ang
+routes:
+  - src: /*
+    dest: /index.html
