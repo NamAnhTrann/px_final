@@ -25,7 +25,7 @@
   <div class="total-amount text-center">
       <h3>Tổng tất cả: <strong>VND {{ totalAmount.toLocaleString() }}</strong></h3>
       <div class="card-footer text-center">
-        <button class="btn btn-primary">Thanh Toán</button>
+        <button (click)="initiatePayment()" class="btn btn-primary">Thanh Toán</button>
       </div>
   </div>
 </section>

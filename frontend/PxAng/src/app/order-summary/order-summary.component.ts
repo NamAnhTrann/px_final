@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +16,7 @@ export class OrderSummaryComponent implements OnInit {
   totalAmount: number = 0;
   groupedOrders: any[] = []; // Stores grouped orders by product name
 
-  constructor(private route: ActivatedRoute, private dbService: DatabaseService) {}
+  constructor(private route: ActivatedRoute, private dbService: DatabaseService, private router:Router) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -91,4 +91,18 @@ export class OrderSummaryComponent implements OnInit {
     this.totalAmount = this.groupedOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
     console.log("Total amount for all orders:", this.totalAmount);
   }
+
+  initiatePayment() {
+    if (!this.userId) {
+      console.error("User ID is missing. Cannot proceed with payment.");
+      this.router.navigate(['/signup']);  // Redirect to sign-up
+      return;
+    }
+
+    console.log("Initiating payment for user:", this.userId);
+    this.dbService.paymentGateway(this.userId);  // ✅ Use userId to trigger payment
+  }
 }
+
+
+

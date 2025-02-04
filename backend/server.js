@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const User = require("./model/userSchema");
@@ -13,6 +14,19 @@ const paymentRouter = require("./router/paymentRouter");
 const app = express();
 app.use(express.json());
 
+const allowedOrigins = [
+  "http://localhost:4200", // For local development
+  "https://phucxanh.vercel.app", // Your deployed frontend
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: "GET,POST,PUT,DELETE",
+    credential: true,
+  })
+);
+
 app.use(productRouter);
 app.use(userRouter);
 app.use(orderRouter);
@@ -21,6 +35,11 @@ app.use(paymentRouter);
 // app.use(
 //   express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
 // );
+
+app.use(
+  "/assets",
+  express.static(path.join(__dirname, "../frontend/PxAng/public/assets"))
+);
 
 const db_url = process.env.DB_URL;
 const port_no = process.env.PORT_NO;

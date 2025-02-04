@@ -14,5 +14,5 @@ export const routes: Routes = [
     {path: 'about-us', component: AboutUsComponent},
     {path: 'signup', component:SignupComponent},
     {path: 'order-summary/:uid', component:OrderSummaryComponent},
-    {path: 'payment/:orderId', component: PaymentComponent}
+    {path: 'payment/:firebaseUid', component: PaymentComponent}
 ];

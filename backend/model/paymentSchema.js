@@ -1,9 +1,12 @@
 const mongoose = require("mongoose");
 const paymentSchema = new mongoose.Schema({
-  orderId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Order",
-  },
+  orderId: [
+    {
+      // Change from single ObjectId to an array
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
   paymentDate: {
     type: Date,
     default: Date.now,

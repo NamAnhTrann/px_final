@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,11 @@ import { Router, RouterLink } from '@angular/router';
 export class HeaderComponent {
   isScrolled: boolean = false;
 
-  constructor(private router:Router){}
+  constructor(private router:Router, private auth: AuthService){}
+
+  logout():void{
+    this.auth.logout();
+  }
 
   @HostListener('window:scroll',[])
   onWindowScroll(){
@@ -20,5 +25,6 @@ export class HeaderComponent {
       this.isScrolled = window.scrollY > 50;
     
   }
+
   
 }

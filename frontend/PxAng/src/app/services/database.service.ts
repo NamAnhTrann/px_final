@@ -12,11 +12,13 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class DatabaseService {
+  private apiUrl = 'http://localhost:1010'; // Backend URL for local dev
+
 
   constructor(private http:HttpClient) { }
 
   getProduct(){
-    return this.http.get("/get/product", httpOptions )
+    return this.http.get(`${this.apiUrl}/get/product`, httpOptions )
   }
 
   getProductId(id: string): Observable<Product> {
@@ -24,34 +26,45 @@ export class DatabaseService {
   }
 
   getOrderUserId(userId: string){
-    return this.http.get(`/list/orders/${userId}`, httpOptions)
+    return this.http.get(`${this.apiUrl}/list/orders/${userId}`, httpOptions)
   }
 
   addItemToCart(productId: string, quantity: number, uid:string): Observable<any> {
     const body = {quantity, uid};
-    return this.http.post(`/purchase/product/${productId}`, body, httpOptions);
+    return this.http.post(`${this.apiUrl}/purchase/product/${productId}`, body, httpOptions);
   }
 
   deleteOrder(orderId: string){
-    return this.http.delete(`/cancel/order/${orderId}`, httpOptions)
+    return this.http.delete(`${this.apiUrl}/cancel/order/${orderId}`, httpOptions)
   }
 
   updateOrderQuantity(orderId: string, quantityToRemove: number){
     const body = {quantityToRemove}
-    return this.http.put(`/decrease/order/quantity/${orderId}`, body, httpOptions)
+    return this.http.put(`${this.apiUrl}/decrease/order/quantity/${orderId}`, body, httpOptions)
   }
 
   getOrderId(orderId: string): Observable<any> {
-    return this.http.get(`/get/order/${orderId}`, httpOptions);
+    return this.http.get(`${this.apiUrl}/get/order/${orderId}`, httpOptions);
   }
 
   getUserOrder(uid: string){
-    return this.http.get(`/get/user/${uid}`,httpOptions)
+    return this.http.get(`${this.apiUrl}/get/user/${uid}`,httpOptions)
+  }
+  
+  paymentGateway(firebaseUid: string) {
+    this.http.post<{ url: string }>(`${this.apiUrl}/payment/api/${firebaseUid}`, {}, httpOptions)
+      .subscribe(
+        (response) => {
+          if (response.url) {
+            window.location.href = response.url; // Redirect user to Stripe Checkout
+          }
+        },
+        (error) => {
+          console.error('Error initiating payment:', error);
+        }
+      );
   }
   
 
-  paymentGateway(orderId: string){
-    return this.http.post(`/payment/api/${orderId}`, {}, httpOptions);
-  }
 
 }

@@ -40,4 +40,6 @@ export class HomepageComponent {
       this.isFading = false;
     }, 5000); // ✅ Extra delay to prevent double transition
   }
+
+  
 }

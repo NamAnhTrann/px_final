@@ -32,17 +32,21 @@ export class ProductListComponent {
 
   AddToCart(productId: string, quantity: number) {
     if (!this.uid) {
-      console.error('User not logged in. Cannot add to cart.');
-      this.router.navigate(['/signup'])
+      console.error('User not logged in. Redirecting to signup...');
+      
+      // Redirect to signup page
+      this.router.navigate(['/signup']);
+
+      // Stop execution to prevent API call
       return;
     }
-  
+
     console.log('Adding to cart:', { productId, quantity, uid: this.uid });
-  
+
     this.db.addItemToCart(productId, quantity, this.uid).subscribe(
       (data: any) => {
         console.log('Received response from backend:', data);
-  
+
         if (data && data.order) {
           this.getOrdersForUser(); // Fetch all orders again
         } else {
@@ -53,7 +57,8 @@ export class ProductListComponent {
         console.error('Error adding to cart:', error);
       }
     );
-  }
+}
+
   getOrdersForUser(){
     this.db.getOrderUserId(this.uid).subscribe((data:any)=>{
       console.log("Orders fetched successfully:", data);

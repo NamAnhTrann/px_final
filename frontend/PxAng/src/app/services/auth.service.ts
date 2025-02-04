@@ -6,11 +6,10 @@ import {
   signInWithPopup, 
   GoogleAuthProvider, 
   signOut, 
-  setPersistence, 
-  browserLocalPersistence, 
   onAuthStateChanged
 } from "firebase/auth";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -20,6 +19,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = 'http://localhost:1010';
+
   auth: any;
   app: any;
   provider: any;
@@ -29,7 +30,7 @@ export class AuthService {
   uid: string = "";
   user: any = null; // Store the user object
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     // Initialize Firebase
     this.app = initializeApp(firebaseConfig);
     console.log('Firebase initialized in AuthService');
@@ -38,17 +39,8 @@ export class AuthService {
     this.auth = getAuth();
     this.provider = new GoogleAuthProvider();
 
-    // **Set Persistent Login**
-    setPersistence(this.auth, browserLocalPersistence)
-      .then(() => {
-        console.log("Persistence set to localStorage.");
-      })
-      .catch((error) => {
-        console.error("Error setting persistence:", error);
-      });
-
     // **Check if user is already logged in**
-    this.loadUserSession();
+    this.listenForAuthChanges();
   }
 
   /**
@@ -65,9 +57,6 @@ export class AuthService {
           this.email = user.email || "";
           this.photoUrl = user.photoURL || "";
           this.user = { uid: this.uid, displayName: this.displayName, email: this.email, photoUrl: this.photoUrl };
-
-          // **Save user data in localStorage**
-          localStorage.setItem("user", JSON.stringify(this.user));
 
           console.log("User logged in:", user);
 
@@ -98,7 +87,15 @@ export class AuthService {
       .then(() => {
         console.log("User logged out.");
         this.user = null;
-        localStorage.removeItem("user"); // Clear user session
+  
+        // Clear session data
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload();
+
+  
+        // Redirect to login or home page
+        this.router.navigate(["/signup"]);
       })
       .catch((error) => {
         console.error("Logout failed:", error);
@@ -106,17 +103,9 @@ export class AuthService {
   }
 
   /**
-   * Loads the user session from localStorage and Firebase.
+   * Listens for Firebase Auth State Changes (Session Persistence).
    */
-  loadUserSession(): void {
-    // **Restore user from localStorage**
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-      console.log("User session restored from localStorage:", this.user);
-    }
-
-    // **Listen for Firebase Auth State Changes**
+  listenForAuthChanges(): void {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.uid = user.uid;
@@ -125,11 +114,10 @@ export class AuthService {
         this.photoUrl = user.photoURL || "";
         this.user = { uid: this.uid, displayName: this.displayName, email: this.email, photoUrl: this.photoUrl };
 
-        // **Update localStorage with latest session data**
-        localStorage.setItem("user", JSON.stringify(this.user));
         console.log("User session restored from Firebase:", this.user);
       } else {
         console.log("No user session found in Firebase.");
+        this.user = null;
       }
     });
   }
@@ -155,6 +143,6 @@ export class AuthService {
    */
   sendUidBackend(uid: string) {
     const body = { uid };
-    return this.http.post("/api/save-user", body, httpOptions);
+    return this.http.post(`${this.apiUrl}/api/save-user`, body, httpOptions);
   }
 }
