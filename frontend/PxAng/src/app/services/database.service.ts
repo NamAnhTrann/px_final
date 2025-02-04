@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class DatabaseService {
-  private apiUrl = 'https://px-final-1.onrender.com';
+  private apiUrl = 'https://px-final-1.onrender.com'; // Backend URL
 
 
   constructor(private http:HttpClient) { }
