@@ -33,7 +33,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {
     // Initialize Firebase
     this.app = initializeApp(firebaseConfig);
-    console.log('Firebase initialized in AuthService');
+    console.log('✅ Firebase initialized in AuthService');
     
     // Initialize Firebase Auth
     this.auth = getAuth();
@@ -44,13 +44,13 @@ export class AuthService {
   }
 
   /**
-   * Logs in the user using Google OAuth and stores session data.
+   * Logs in the user using Google OAuth and logs detailed request info.
    */
   login(): Promise<void> {
-    console.log("Attempting login with Google OAuth...");
+    console.log("🔵 Attempting login with Google OAuth...");
+    
     return signInWithPopup(this.auth, this.provider)
       .then((result) => {
-        console.log("Login success, processing user data...");
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if (credential) {
           const user = result.user;
@@ -60,25 +60,28 @@ export class AuthService {
           this.photoUrl = user.photoURL || "";
           this.user = { uid: this.uid, displayName: this.displayName, email: this.email, photoUrl: this.photoUrl };
 
-          console.log("User logged in successfully:", this.user);
+          console.log("✅ User logged in:", user);
+          console.log(`🌍 Login request URL: ${window.location.href}`);
+          console.log(`🔗 OAuth API Endpoint: ${this.auth.config.authDomain}/__/auth/handler`);
 
           // Send UID to backend
-          console.log(`Sending UID to backend: ${this.apiUrl}/api/save-user`);
           return this.sendUidBackend(this.uid).toPromise()
             .then(response => {
-              console.log('UID sent to backend successfully:', response);
+              console.log('📨 UID sent to backend successfully:', response);
             })
             .catch(error => {
-              console.error('Error sending UID to backend:', error);
+              console.error('❌ Error sending UID to backend:', error);
             });
         } else {
-          console.warn("Credential is null. Login might have failed.");
+          console.warn("⚠️ Credential is null. Login might have failed.");
           return Promise.resolve(); // Ensures a return value in all paths
         }
       })
       .catch((error) => {
-        console.error(`Login failed: ${error.code}, ${error.message}`, error);
-        return Promise.reject(error); // Ensures a return value in all paths
+        console.error(`❌ Login failed: ${error.code}, ${error.message}`, error);
+        console.error(`🌍 Failed Login URL: ${window.location.href}`);
+        console.error(`🔗 Firebase OAuth API Endpoint: ${this.auth.config.authDomain}/__/auth/handler`);
+        return Promise.reject(error);
       });
   }
 
@@ -86,10 +89,9 @@ export class AuthService {
    * Logs out the user and clears session data.
    */
   logout(): void {
-    console.log("Attempting to log out...");
     signOut(this.auth)
       .then(() => {
-        console.log("User logged out successfully.");
+        console.log("🚪 User logged out.");
         this.user = null;
   
         // Clear session data
@@ -101,7 +103,7 @@ export class AuthService {
         this.router.navigate(["/signup"]);
       })
       .catch((error) => {
-        console.error("Logout failed:", error);
+        console.error("❌ Logout failed:", error);
       });
   }
 
@@ -109,7 +111,8 @@ export class AuthService {
    * Listens for Firebase Auth State Changes (Session Persistence).
    */
   listenForAuthChanges(): void {
-    console.log("Listening for authentication state changes...");
+    console.log("👀 Listening for authentication state changes...");
+    
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.uid = user.uid;
@@ -118,9 +121,9 @@ export class AuthService {
         this.photoUrl = user.photoURL || "";
         this.user = { uid: this.uid, displayName: this.displayName, email: this.email, photoUrl: this.photoUrl };
 
-        console.log("User session restored from Firebase:", this.user);
+        console.log("🔄 User session restored from Firebase:", this.user);
       } else {
-        console.log("No user session found in Firebase.");
+        console.log("❌ No user session found in Firebase.");
         this.user = null;
       }
     });
@@ -130,7 +133,7 @@ export class AuthService {
    * Checks if a user is logged in.
    */
   isLoggedIn(): boolean {
-    console.log("Checking login status. Current user:", this.user);
+    console.log("🔍 Checking login status:", this.user);
     return this.user !== null;
   }
 
@@ -138,7 +141,6 @@ export class AuthService {
    * Retrieves the UID of the logged-in user.
    */
   getUserId(): string {
-    console.log("Fetching user ID. UID:", this.uid);
     return this.uid;
   }
 
@@ -147,7 +149,7 @@ export class AuthService {
    */
   sendUidBackend(uid: string) {
     const body = { uid };
-    console.log(`Sending POST request to: ${this.apiUrl}/api/save-user with body:`, body);
+    console.log(`📡 Sending UID to backend: ${this.apiUrl}/api/save-user`, body);
     return this.http.post(`${this.apiUrl}/api/save-user`, body, httpOptions);
   }
 }
