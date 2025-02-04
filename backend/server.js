@@ -16,7 +16,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:4200", // For local development
-  "https://phucxanh.onrender.com/", // Your deployed frontend
+  "https://phucxanh.onrender.com", // Your deployed frontend
 ];
 
 app.use(
@@ -24,6 +24,7 @@ app.use(
     origin: allowedOrigins,
     methods: "GET,POST,PUT,DELETE",
     credential: true,
+    allowedHeaders: "Content-Type,Authorization",
   })
 );
 
