@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class DatabaseService {
-  private apiUrl = 'http://localhost:1010'; // Backend URL for local dev
+  private apiUrl = 'https://px-final-1.onrender.com';
 
 
   constructor(private http:HttpClient) { }

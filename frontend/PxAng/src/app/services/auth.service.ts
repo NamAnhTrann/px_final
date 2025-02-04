@@ -19,7 +19,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:1010';
+  private apiUrl = 'https://px-final-1.onrender.com';
 
   auth: any;
   app: any;

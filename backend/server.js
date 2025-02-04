@@ -37,8 +37,7 @@ app.use(paymentRouter);
 // );
 
 app.use(
-  "/assets",
-  express.static(path.join(__dirname, "../frontend/PxAng/public/assets"))
+  express.static(path.join(__dirname, "../frontend/PxAng/dist/px-ang/browser"))
 );
 
 const db_url = process.env.DB_URL;
@@ -61,6 +60,10 @@ async function connect() {
   }
 }
 connect();
+
+app.get("/", (req, res) => {
+  res.send("✅ Backend is Running!");
+});
 
 app.post("/api/save-user", async (req, res) => {
   const { uid } = req.body;
