@@ -32,7 +32,7 @@ module.exports = {
         }
 
         totalAmount += order.quantity * order.productId.productPrice;
-        orderIds.push(order._id); // ✅ Collect order IDs
+        orderIds.push(order._id);
 
         // Prepare Stripe Checkout line items
         lineItems.push({
