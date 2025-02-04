@@ -16,7 +16,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:4200", // For local development
-  "https://phucxanh.vercel.app", // Your deployed frontend
+  "https://px-final.onrender.com", // Your deployed frontend
 ];
 
 app.use(
