@@ -63,22 +63,35 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/save-user", async (req, res) => {
-  const { uid } = req.body;
-  console.log("Request body:", req.body);
+  const { uid, email } = req.body;
+  console.log("📥 Received request:", req.body); // ✅ Log received data
 
   if (!uid) {
+    console.error("❌ Missing UID in request");
     return res.status(400).json({ message: "UID is required" });
   }
 
   try {
     let user = await User.findOne({ firebaseUid: uid });
+
     if (!user) {
-      user = new User({ firebaseUid: uid }); // Save as `firebaseUid`
+      user = new User({
+        firebaseUid: uid,
+        userEmail: email || "",
+      });
       await user.save();
+      console.log("✅ New user created:", user);
+    } else {
+      if (!user.userEmail || (email && user.userEmail !== email)) {
+        console.log("🔄 Updating user email:", email);
+        user.userEmail = email;
+        await user.save();
+      }
     }
-    res.status(200).json({ message: "User saved successfully", user });
+
+    res.status(200).json({ message: "✅ User saved successfully", user });
   } catch (error) {
-    console.error("Error saving user:", error);
+    console.error("❌ Error saving user:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });

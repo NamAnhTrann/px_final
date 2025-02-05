@@ -6,7 +6,8 @@ import {
   signInWithPopup, 
   GoogleAuthProvider, 
   signOut, 
-  onAuthStateChanged
+  onAuthStateChanged,
+  createUserWithEmailAndPassword
 } from "firebase/auth";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -65,7 +66,7 @@ export class AuthService {
           console.log(`🔗 OAuth API Endpoint: ${this.auth.config.authDomain}/__/auth/handler`);
 
           // Send UID to backend
-          return this.sendUidBackend(this.uid).toPromise()
+          return this.sendUidBackend(this.uid, this.email).toPromise()
             .then(response => {
               console.log('📨 UID sent to backend successfully:', response);
             })
@@ -84,6 +85,40 @@ export class AuthService {
         return Promise.reject(error);
       });
   }
+
+  signupWithEmailAndPassword(email: string, password: string): Promise<void> {
+    console.log(`📧 Attempting signup for: ${email}`);
+
+    return createUserWithEmailAndPassword(this.auth, email, password)
+      .then(async (userCredential) => { // ✅ Make function async to get updated user info
+        const user = userCredential.user;
+        await user.reload(); // ✅ Ensure latest user data is fetched from Firebase
+        
+        this.uid = user.uid;
+        this.email = user.email || email; // ✅ Ensure email is not undefined
+        this.user = { uid: this.uid, email: this.email };
+
+        console.log("✅ Signup successful & user is now logged in:", this.user);
+
+        // ✅ Ensure backend receives correct email
+        return this.sendUidBackend(this.uid, this.email).toPromise()
+          .then((response: any) => { 
+            console.log('📨 UID sent to backend successfully:', response);
+            this.router.navigate(["/product-list"]); // ✅ Redirect after successful backend sync
+          })
+          .catch((error: any) => { 
+            console.error('❌ Error sending UID to backend:', error);
+            throw error;
+          });
+      })
+      .catch((error: any) => { 
+        console.error("❌ Signup failed:", error);
+        return Promise.reject(error);
+      });
+}
+
+
+
 
   /**
    * Logs out the user and clears session data.
@@ -147,9 +182,9 @@ export class AuthService {
   /**
    * Sends UID to the backend.
    */
-  sendUidBackend(uid: string) {
-    const body = { uid };
-    console.log(`📡 Sending UID to backend: ${this.apiUrl}/api/save-user`, body);
+  sendUidBackend(uid: string, email:string) {
+    const body = { uid, email };
+    console.log(`📡 Sending UID + Email to backend:`, body); // ✅ Log request data
     return this.http.post(`${this.apiUrl}/api/save-user`, body, httpOptions);
   }
 }

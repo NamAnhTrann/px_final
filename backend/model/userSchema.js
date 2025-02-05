@@ -22,7 +22,8 @@ let userSchema = new mongoose.Schema({
   },
   userEmail: {
     type: String,
-    required: false,
+    required: true,
+    default: "none",
   },
   userPhoneNumber: {
     type: Number,

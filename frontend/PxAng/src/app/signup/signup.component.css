@@ -1,0 +1,18 @@
+/* Background */
+.bg-custom {
+    background-color: rgb(55, 84, 55);
+  }
+  
+  /* Centered Card */
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    background: white;
+  }
+  
+  /* Hover Effect */
+  .custom-button:hover {
+    background-color: rgba(68, 113, 68, 0.959);
+  }
+  

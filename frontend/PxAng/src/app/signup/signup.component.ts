@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { FormsModule } from '@angular/forms'; // ✅ Required for [(ngModel)]
+
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
+  email: string = '';
+  password: string = '';
 
   constructor(private authService: AuthService, private router:Router) {}
   ngOnInit() {
@@ -35,6 +39,15 @@ export class SignupComponent {
         alert("Login failed. Please try again.");
       });
   }
+  signup() {
+    this.authService.signupWithEmailAndPassword(this.email, this.password)
+      .then(() => console.log("✅ Signup successful"))
+      this.router.navigate(['/product-list'])
+      .catch(error => console.error("❌ Signup failed:", error));
+  }
+
+
+  
 
   logout(){
     this.authService.logout();
