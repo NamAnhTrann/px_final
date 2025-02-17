@@ -56,8 +56,8 @@ module.exports = {
         payment_method_types: ["card"],
         line_items: lineItems,
         mode: "payment",
-        success_url: `${client_url}/`,
-        cancel_url: `${client_url}/`,
+        success_url: `${client_url}`,
+        cancel_url: `${client_url}`,
         metadata: { firebaseUid: user.firebaseUid },
       });
 
